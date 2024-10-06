@@ -11,10 +11,22 @@ const configureCanvas = (canvas: HTMLCanvasElement): CanvasConfig => {
     };
 };
 
+const initialDraw = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    ctx.fillStyle = "#67e6d2";
+    ctx?.fillRect(0, 0, width, height);
+    
+    const gameMap = new Image();
+    gameMap.src = "src/assets/game_map.png";
+    
+    gameMap.onload = () => {
+      ctx?.drawImage(gameMap, -900, -500);
+    };
+};
+
 interface CanvasConfig {
     ctx: CanvasRenderingContext2D | null;
     width: number;
     height: number;
 };
 
-export { configureCanvas };
+export { configureCanvas, initialDraw };
