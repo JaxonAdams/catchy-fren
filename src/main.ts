@@ -10,3 +10,4 @@ const canvas = document.querySelector<HTMLCanvasElement>('canvas')!;
 const game = new Game(canvas);
 
 game.init();
+game.run();

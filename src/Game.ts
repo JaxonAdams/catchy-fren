@@ -47,6 +47,12 @@ class Game {
     public init(): void {
         this.initialDraw(this.ctx, this.gameWidth, this.gameHeight);
     }
+
+    public run(): void {
+        window.addEventListener("keydown", e => {
+            console.log(e.key);
+        });
+    }
 }
 
 export default Game;
