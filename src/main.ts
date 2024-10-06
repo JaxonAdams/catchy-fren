@@ -1,4 +1,4 @@
-import { configureCanvas, initialDraw } from "./setup";
+import Game from "./Game";
 
 import "./assets/style.css";
 
@@ -7,10 +7,6 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 `;
 
 const canvas = document.querySelector<HTMLCanvasElement>('canvas')!;
-const {ctx, width, height} = configureCanvas(canvas);
+const game = new Game(canvas);
 
-if (!ctx) {
-  throw new Error("Canvas context not found");
-}
-
-initialDraw(ctx, width, height);
+game.init();
