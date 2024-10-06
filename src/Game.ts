@@ -1,8 +1,10 @@
 import { configureCanvas } from "./setup";
+import Player from "./Player";
 
 class Game {
 
     private ctx: CanvasRenderingContext2D;
+    private player: Player = new Player();
 
     private gameWidth: number;
     private gameHeight: number;
@@ -44,14 +46,16 @@ class Game {
         };
     };
 
+    private handleInput(event: KeyboardEvent): void {
+        this.player.handleMovement(event);
+    };
+
     public init(): void {
         this.initialDraw(this.ctx, this.gameWidth, this.gameHeight);
     }
 
     public run(): void {
-        window.addEventListener("keydown", e => {
-            console.log(e.key);
-        });
+        window.addEventListener("keydown", e => this.handleInput(e));
     }
 }
 
