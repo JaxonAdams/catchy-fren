@@ -1,13 +1,16 @@
 import { configureCanvas } from "./setup";
 import Player from "./Player";
+import GameMap from "./GameMap";
 
 class Game {
 
     private ctx: CanvasRenderingContext2D;
-    private player: Player = new Player();
 
-    private gameWidth: number;
-    private gameHeight: number;
+    public gameWidth: number;
+    public gameHeight: number;
+
+    private gameMap;
+    private player;
 
     constructor(canvas: HTMLCanvasElement) {
         const context = configureCanvas(canvas);
@@ -15,48 +18,37 @@ class Game {
         this.ctx = context.ctx;
         this.gameWidth = context.width;
         this.gameHeight = context.height;
-    }
 
-    private initialDraw(ctx: CanvasRenderingContext2D, width: number, height: number): void {
-        ctx.fillStyle = "#67e6d2";  // same color as the ocean on our map
-        ctx?.fillRect(0, 0, width, height);
-        
-        const gameMap = new Image();
-        gameMap.src = "src/assets/game_map.png";
-        
-        const playerImg = new Image();
-        playerImg.src = "src/assets/playerDown.png";
-    
-        // game map will load before the player image
-        gameMap.onload = () => {
-          ctx?.drawImage(gameMap, -950, -400);
-          playerImg.onload = () => {
-            ctx?.drawImage(
-                playerImg,                         // image
-                0,                                 // crop x start
-                0,                                 // crop y start
-                playerImg.width / 4,               // crop width
-                playerImg.height,                  // crop height
-                width / 2 - playerImg.width / 8,   // x position
-                height / 2 - playerImg.height / 8, // y position
-                playerImg.width / 4,               // width
-                playerImg.height                   // height
-            );
-          };
-        };
-    };
+        const gameMapImage = new Image();
+        gameMapImage.src = "src/assets/game_map.png";
+        this.gameMap = new GameMap(gameMapImage);
+
+        const playerImage = new Image();
+        playerImage.src = "src/assets/playerDown.png";
+        this.player = new Player(this.gameWidth / 2, this.gameHeight / 2, playerImage);
+    }
 
     private handleInput(event: KeyboardEvent): void {
         this.player.handleMovement(event);
     };
 
+    private animate = () => {
+        window.requestAnimationFrame(this.animate);
+        this.gameMap.draw(this.ctx);
+        this.player.draw(this.ctx);
+    };
+
     public init(): void {
-        this.initialDraw(this.ctx, this.gameWidth, this.gameHeight);
-    }
+        this.ctx.fillStyle = "#67e6d2";  // same color as the ocean on our map
+    };
 
     public run(): void {
         window.addEventListener("keydown", e => this.handleInput(e));
-    }
+
+        this.ctx?.fillRect(0, 0, this.gameWidth, this.gameHeight);
+        
+        this.animate();
+    };
 }
 
 export default Game;
