@@ -1,17 +1,8 @@
-class GameMap {
+import Sprite from "./Sprite";
 
-    private posX;
-    private posY;
-    private image;
-
+class GameMap extends Sprite {
     constructor(image: HTMLImageElement) {
-        this.posX = -950;
-        this.posY = -400;
-        this.image = image;
-    }
-
-    public draw(ctx: CanvasRenderingContext2D) {
-        ctx.drawImage(this.image, this.posX, this.posY);
+        super(image, {x: -950, y: -400})
     }
 };
 

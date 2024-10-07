@@ -1,26 +1,26 @@
-class Player {
+import Sprite from "./Sprite";
+
+class Player extends Sprite {
+
+    public speed = 4;
     
     private movementMap: MovementMap = {
-        "ArrowUp": { x: 0, y: -1 },
-        "ArrowDown": { x: 0, y: 1 },
-        "ArrowLeft": { x: -1, y: 0 },
-        "ArrowRight": { x: 1, y: 0 },
         "w": { x: 0, y: -1 },
         "s": { x: 0, y: 1 },
         "a": { x: -1, y: 0 },
         "d": { x: 1, y: 0 },
+        "ArrowUp": { x: 0, y: -1 },
+        "ArrowLeft": { x: -1, y: 0 },
+        "ArrowDown": { x: 0, y: 1 },
+        "ArrowRight": { x: 1, y: 0 },
     };
 
-    private image: HTMLImageElement;
+    private pImage: HTMLImageElement;
 
-    private posX: number;
-    private posY: number;
-    
     constructor(posX: number, posY: number, image: HTMLImageElement) {
-        this.image = image;
+        super(image, {x: posX, y: posY})
 
-        this.posX = posX;
-        this.posY = posY;
+        this.pImage = image;
     };
 
     public getMovementMap(): MovementMap {
@@ -36,15 +36,15 @@ class Player {
 
     public draw(ctx: CanvasRenderingContext2D) {
         ctx.drawImage(
-            this.image,                         // image
-            0,                                  // crop x start
-            0,                                  // crop y start
-            this.image.width / 4,               // crop width
-            this.image.height,                  // crop height
-            this.posX - this.image.width / 8,   // x position
-            this.posY - this.image.height / 8,  // y position
-            this.image.width / 4,               // width
-            this.image.height                   // height
+            this.pImage,                               // image
+            0,                                         // crop x start
+            0,                                         // crop y start
+            this.pImage.width / 4,                     // crop width
+            this.pImage.height,                        // crop height
+            this.position.x - this.pImage.width / 8,   // x position
+            this.position.y - this.pImage.height / 8,  // y position
+            this.pImage.width / 4,                     // width
+            this.pImage.height                         // height
         );
     };
 };
